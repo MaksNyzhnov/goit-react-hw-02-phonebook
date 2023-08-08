@@ -9,16 +9,7 @@
 .section > h2 {
   margin-bottom: 16px;
 }
-.section > p {
-  margin-bottom: 8px;
-}
-.section > input {
-  padding: 5px;
-  margin-bottom: 8px;
 
-  border: 1px solid rgb(29, 29, 29);
-  border-radius: 10px;
-}
 .section__contacts__list {
   list-style: decimal;
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import css from './Addingsection.module.css';
+import AddForm from './AddForm/AddForm';
 
 class AddSection extends React.Component {
   state = {
@@ -12,9 +13,6 @@ class AddSection extends React.Component {
     "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
   phoneInputPattern =
     '+?d{1,4}?[-.s]?(?d{1,3}?)?[-.s]?d{1,4}[-.s]?d{1,4}[-.s]?d{1,9}';
-
-  inputNameId = nanoid(5);
-  inputPhoneId = nanoid(5);
 
   checkContactRepetition = (contact, presentContacts) => {
     for (let item of presentContacts) {
@@ -59,37 +57,14 @@ class AddSection extends React.Component {
     const { name, number } = this.state;
     return (
       <div className={css.section}>
-        <form className={css.section__form} onSubmit={this.onFormSubmit}>
-          <label htmlFor={this.inputNameId}>Name</label>
-          <input
-            id={this.inputNameId}
-            className={css.section__form__input}
-            type="text"
-            name="name"
-            value={name}
-            pattern={this.inputNamePattern}
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            placeholder="Enter name here"
-            required
-            onChange={this.onInputChange}
-          />
-          <label htmlFor={this.inputPhoneId}>Number</label>
-          <input
-            id={this.inputPhoneId}
-            className={css.section__form__input}
-            type="tel"
-            name="number"
-            value={number}
-            pattern={this.phoneInputPattern}
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            placeholder="Enter phone number"
-            required
-            onChange={this.onInputChange}
-          />
-          <button type="submit" className={css.section__form__button}>
-            Add contact
-          </button>
-        </form>
+        <AddForm
+          name={name}
+          number={number}
+          inputNamePattern={this.inputNamePattern}
+          phoneInputPattern={this.phoneInputPattern}
+          onInputChange={this.onInputChange}
+          onFormSubmit={this.onFormSubmit}
+        />
       </div>
     );
   }
