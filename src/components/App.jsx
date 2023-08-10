@@ -1,44 +1,80 @@
 import React from "react";
 
-import AddSection from "./Addingsection/Addingsection";
-import ContactsSection from "./Contactssection/Contactssection";
+import Section from "./Section/Section";
+import Form from "./Form/Form";
+import Filter from "./Filter/Filter";
+import ContactList from "./ContactList/ContactList";
 
 class App extends React.Component {
   state = {
   contacts: [],
-  name: '',
-  number: '',
   filter:''
 }
   addContact = contact => {
+    if (this.checkContactRepetition(contact, this.state.contacts)) {
+      this.showAlert(contact.name)
+      return
+    }
   this.setState(prevState => {
     return {
       contacts: [...prevState.contacts, contact]
     };
   });
   }
+
+  checkContactRepetition = (contact, presentContacts) => {
+    for (let item of presentContacts) {
+      if (item.name === contact.name) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   deleteContact = (id) => {
     const { contacts } = this.state;
     const updatedContacts = contacts.filter(contact => contact.id !== id)
     this.setState({ contacts: updatedContacts });
   }
+
   onFilterChange = (event) => {
 this.setState({filter: event.currentTarget.value})
   }
-  
+
+  showAlert = name => {
+    alert(`${name} is already in your contacts`);
+  };
+
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+
+    const normalizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact => {
+      return contact.name.toLowerCase().includes(normalizedFilter);
+    });
+  };
+
   render() {
-    
-    const {name, contacts, filter} = this.state
+    const filteredContacts = this.getFilteredContacts();
+    const { filter} = this.state
     return (
       
     <>
         <h1>PhoneBook</h1>
-        <AddSection addContact={this.addContact} currentName={name} contacts={contacts}></AddSection>
-        <ContactsSection contacts={contacts}
+        <Section>
+          <Form addContact={this.addContact} />
+        </Section>
+        <Section title="Contacts" >
+          <Filter filter={filter} onFilterChange={this.onFilterChange} />
+          <ContactList contacts={filteredContacts} deleteContact={this.deleteContact}></ContactList>
+        </Section>
+        
+        {/* <ContactsSection contacts={contacts}
           filter={filter}
           onFilterChange={this.onFilterChange}
         deleteContact={this.deleteContact}
-        ></ContactsSection>
+        ></ContactsSection> */}
         
     </>
     )
