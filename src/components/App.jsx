@@ -69,13 +69,6 @@ this.setState({filter: event.currentTarget.value})
           <Filter filter={filter} onFilterChange={this.onFilterChange} />
           <ContactList contacts={filteredContacts} deleteContact={this.deleteContact}></ContactList>
         </Section>
-        
-        {/* <ContactsSection contacts={contacts}
-          filter={filter}
-          onFilterChange={this.onFilterChange}
-        deleteContact={this.deleteContact}
-        ></ContactsSection> */}
-        
     </>
     )
   }
